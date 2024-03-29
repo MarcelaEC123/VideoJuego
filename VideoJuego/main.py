@@ -46,7 +46,7 @@ class Acertijo(pygame.sprite.Sprite):
 
     @classmethod
     def generar_acertijos(cls, cantidad, size=(80, 50), color=WHITE):
-        posiciones = [(50, 100), (200, 300), (350, 170), (500, 400), (650, 500), (800, 100)]  # Posiciones de las cajas
+        posiciones = [(50, 440), (200, 350), (350, 440), (500, 350), (650, 440), (800, 350)]  # Posiciones de las cajas
         for i in range(cantidad):
             acertijo = cls(f"Pregunta {i+1}", ["Opción 1", "Opción 2", "Opción 3"], 0, posiciones[i], size, color)
             cls.acertijos.append(acertijo)
@@ -80,6 +80,7 @@ class Acertijo(pygame.sprite.Sprite):
         # Dibujar el texto en la superficie de la caja de acertijo
         self.image.blit(numero_pregunta_texto, numero_pregunta_rect)
 
+
     def mostrar_pregunta(self):
         # Aquí puedes mostrar la pregunta y sus opciones en pantalla
         pass
@@ -88,7 +89,7 @@ class Acertijo(pygame.sprite.Sprite):
 def main():
     avatar = Avatar()
     Acertijo.generar_acertijos(6)  # Generar 6 cajas de acertijos
-    Acertijo.generar_acertijos(6, color=(255, 255, 0))  # Cambiar el color de las cajas de acertijos a azul
+    Acertijo.generar_acertijos(6, color=(0, 0, 255))  # Cambiar el color de las cajas de acertijos a azul
     acertijos = Acertijo.acertijos  # Obtener las instancias generadas 
 
     # Grupo de sprites
@@ -118,7 +119,6 @@ def main():
 
     pygame.quit()
     sys.exit()
-
 
 if __name__ == "__main__":
     main()
