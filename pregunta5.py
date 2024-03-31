@@ -15,8 +15,9 @@ pygame.display.set_caption("Juego de Acertijos en Inglés")
 background_image = pygame.image.load("./imagenes/fondo.jpg").convert()
 background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-# Cargar la música de fondo
+# Cargar música de fondo
 pygame.mixer.music.load("./imagenes/background_music.mp3")
+pygame.mixer.music.play(-1)  # Reproducir en bucle la música de fondo
 
 # Definir colores
 WHITE = (255, 255, 255)
@@ -58,7 +59,7 @@ class Avatar(pygame.sprite.Sprite):
 class Acertijo(pygame.sprite.Sprite):
     contador_acertijos = 0
     acertijos = []
-    preguntas = ["¿como se dice tiburon en ingles?"]
+    preguntas = ["¿Cuál es la montaña más alta del mundo?"]
     respuesta_correcta = 1  # Índice de la respuesta correcta
 
     @classmethod
@@ -71,8 +72,7 @@ class Acertijo(pygame.sprite.Sprite):
         for i in range(cantidad):
             cls.contador_acertijos += 1
             if i < len(cls.preguntas):
-                # Cambiar las opciones aquí
-                acertijo = cls(cls.preguntas[i], ["Fish", "Shark", "Whale"], cls.respuesta_correcta, pos, size, color)
+                acertijo = cls(cls.preguntas[i], ["K2", "Everest", "Kangchenjunga"], cls.respuesta_correcta, pos, size, color)
                 cls.acertijos.append(acertijo)
 
     def __init__(self, pregunta, opciones, respuesta, pos, size=(150, 80), color=WHITE):
@@ -138,12 +138,10 @@ class BotonRespuesta(pygame.sprite.Sprite):
                 if self.is_correct:
                     print("Respuesta correcta")
                     self.image.fill(self.color_correcto)
-                    return True  # Indica que la respuesta es correcta
+                    subprocess.Popen(["python", "pregunta6.py"])  # Ejecutar pregunta6.py
                 else:
                     print("Respuesta incorrecta")
                     self.image.fill(self.color_incorrecto)
-                    return False  # Indica que la respuesta es incorrecta
-        return None
 
 def main():
     print("Inicializando juego...")
@@ -167,26 +165,15 @@ def main():
         botones_respuesta.append(boton)
         all_sprites.add(boton)
 
-    # Reproducir música de fondo
-    pygame.mixer.music.play(-1)  # El -1 significa que se reproduce en bucle
-
     print("Comenzando bucle principal...")
     # Ciclo principal
     running = True
-    respuesta_correcta = False  # Bandera para controlar si la respuesta es correcta
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             for boton in botones_respuesta:
-                result = boton.handle_event(event)
-                if result is not None:
-                    respuesta_correcta = result
-
-        # Si la respuesta es correcta, abrir pregunta2.py
-        if respuesta_correcta:
-            subprocess.Popen(["python", "pregunta2.py"])
-            break  # Salir del bucle
+                boton.handle_event(event)
 
         # Actualizar
         all_sprites.update()
